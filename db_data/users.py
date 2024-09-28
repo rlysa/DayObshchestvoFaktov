@@ -12,6 +12,7 @@ class User(SqlAlchemyBase):
     user_id = sqlalchemy.Column(sqlalchemy.Integer, unique=True)
     status = sqlalchemy.Column(sqlalchemy.Integer, default=USER)
     name = sqlalchemy.Column(sqlalchemy.String)
+    sex = sqlalchemy.Column(sqlalchemy.String)
     age = sqlalchemy.Column(sqlalchemy.Integer)
     city = sqlalchemy.Column(sqlalchemy.Integer)
     description = sqlalchemy.Column(sqlalchemy.String)
