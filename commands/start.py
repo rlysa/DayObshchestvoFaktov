@@ -1,25 +1,20 @@
 from aiogram.filters.command import Command
 from aiogram.types import Message
-
-from keyboards.user_keyboard import user_keyboard
-from main import bot, dp, Form
+from aiogram.fsm.context import FSMContext
+from aiogram import Router
 
 import time
 
+# from keyboards.user_keyboard import user_keyboard
 
-@dp.message(Command('start'))
-async def cmd_start(message: Message):
-    await message.answer('Какая-то инструкция', reply_markup=user_keyboard)
+from .forms import Form
+
+router = Router()
+
+
+@router.message(Command('start'))
+async def cmd_start(message: Message, state: FSMContext):
+    await message.answer('Какая-то инструкция')
     time.sleep(2)
-    await Form.name.set()
-    await message.answer('Введите Имя')
-
-
-@dp.message_handler(state=Form.name)
-async def process_name(message: Message):
-    async with state.proxy() as data:
-        data['name'] = message.text
-
-    print(data['name'])
-    await Form.age.set()
-    await message.reply("How old are you?")
+    await state.set_state(Form.name)
+    await message.answer('Укажите ваше имя')
