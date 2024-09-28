@@ -7,3 +7,4 @@ class Form(StatesGroup):
     age = State()
     city = State()
     description = State()
+    prefer = State()

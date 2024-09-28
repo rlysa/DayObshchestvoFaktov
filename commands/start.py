@@ -5,8 +5,6 @@ from aiogram import Router
 
 import time
 
-# from keyboards.user_keyboard import user_keyboard
-
 from .forms import Form
 
 router = Router()

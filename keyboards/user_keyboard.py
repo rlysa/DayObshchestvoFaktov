@@ -1,6 +1,11 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
-button_instruction = KeyboardButton(text='Инструкция')
+buttons = [
+    [KeyboardButton(text='Инструкция')],
+    [KeyboardButton(text='Изменить профиль')]
+]
 
-user_keyboard = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-user_keyboard.add(button_instruction)
+user_keyboard = ReplyKeyboardMarkup(keyboard=buttons,
+                                    resize_keyboard=True)
+                                  # one_time_keyboard=True)
+
