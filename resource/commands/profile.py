@@ -13,11 +13,11 @@ router = Router()
 
 new_user = dict({'user_id': '',
                  'name': '',
-                 'sex': '',
+                 'sex': 0,
                  'age': 0,
                  'city': '',
                  'description': '',
-                 'prefer': ''})
+                 'prefer': 0})
 
 
 @router.message(Form.name)
