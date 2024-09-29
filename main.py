@@ -2,9 +2,9 @@ import asyncio
 from aiogram import Bot, Dispatcher
 
 from config import TOKEN, DB_NAME
-from db_data.db_session import global_init
-from commands.start import router as start_router
-from commands.profile import router as profile_router
+from db.db_data.db_session import global_init
+from resource.commands.start import router as start_router
+from resource.commands.profile import router as profile_router
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()

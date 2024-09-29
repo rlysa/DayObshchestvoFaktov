@@ -1,8 +1,8 @@
 import sqlite3
 
 from config import DB_NAME
-from db_data import db_session
-from db_data.__all_models import User
+from db.db_data import db_session
+from db.db_data.__all_models import User
 
 
 def add_new_user(new_user):

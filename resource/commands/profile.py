@@ -1,10 +1,11 @@
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from aiogram import Router
 
 from .forms import Form
-from keyboards.user_keyboard import user_keyboard
-from db_sessions.add_new_user import add_new_user
+from resource.keyboards.user_keyboard import user_keyboard
+from resource.keyboards.sex_keyboard import get_sex_keyboard, change_sex_keyboard, get_sex_prefer_keyboard, change_sex_prefer_keyboard
+from db.db_request.add_new_user import add_new_user
 
 import time
 
@@ -27,17 +28,18 @@ async def profile_name(message: Message, state: FSMContext):
 
     time.sleep(1)
     await state.set_state(Form.sex)
-    await message.answer('Укажите ваш пол')
+    await message.answer('Укажите ваш пол', reply_markup=get_sex_keyboard())
 
 
-@router.message(Form.sex)
-async def profile_sex(message: Message, state: FSMContext):
+@router.callback_query(Form.sex)
+async def profile_sex(callback: CallbackQuery, state: FSMContext):
     global new_user
-    new_user['sex'] = 1 if message.text == 'м' else 2
+    new_user['sex'] = 1 if callback.data == 'м' else 2
+    await callback.message.edit_reply_markup(reply_markup=change_sex_keyboard(new_user['sex']))
 
     time.sleep(1)
     await state.set_state(Form.age)
-    await message.answer('Укажите ваш возраст')
+    await callback.message.answer('Укажите ваш возраст')
 
 
 @router.message(Form.age)
@@ -71,20 +73,21 @@ async def profile_description(message: Message, state: FSMContext):
 
     time.sleep(1)
     await state.set_state(Form.prefer)
-    await message.answer('С кем бы вы предпочли знакомиться?')
+    await message.answer('С кем бы вы предпочли знакомиться?', reply_markup=get_sex_prefer_keyboard())
 
 
-@router.message(Form.prefer)
-async def profile_prefer(message: Message, state: FSMContext):
+@router.callback_query(Form.prefer)
+async def profile_sex_prefer(callback: CallbackQuery, state: FSMContext):
     global new_user
-    if message.text == 'м':
+    if callback.data == 'м':
         new_user['prefer'] = 1
-    elif message.text == 'ж':
+    elif callback.data == 'ж':
         new_user['prefer'] = 2
     else:
         new_user['prefer'] = 3
 
+    await callback.message.edit_reply_markup(reply_markup=change_sex_prefer_keyboard(new_user['prefer']))
     time.sleep(1)
     await state.clear()
     add_new_user(new_user)
-    await message.answer('Регистрация пройдена успешно', reply_markup=user_keyboard)
+    await callback.message.answer('Регистрация пройдена успешно', reply_markup=user_keyboard)
