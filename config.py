@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
-
-TOKEN = 'BOT TOKEN'
+import os
+TOKEN = os.getenv("TOKEN") or 'BOT TOKEN' #export TOKEN = "   "
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_NAME = os.path.join(BASE_DIR, 'db', 'dayOF.sqlite')
