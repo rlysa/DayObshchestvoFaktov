@@ -4,7 +4,7 @@ from aiogram import Router
 
 from .forms import Form
 from resource.keyboards.user_keyboard import user_keyboard
-from resource.keyboards.sex_keyboard import get_sex_keyboard, change_sex_keyboard, get_sex_prefer_keyboard, change_sex_prefer_keyboard
+from resource.keyboards.sex_keyboard import sex_keyboard, change_sex_keyboard, sex_prefer_keyboard
 from db.db_request.add_new_user import add_new_user
 
 import time
@@ -28,7 +28,7 @@ async def profile_name(message: Message, state: FSMContext):
 
     time.sleep(1)
     await state.set_state(Form.sex)
-    await message.answer('Укажите ваш пол', reply_markup=get_sex_keyboard())
+    await message.answer('Укажите ваш пол', reply_markup=sex_keyboard)
 
 
 @router.callback_query(Form.sex)
@@ -46,7 +46,7 @@ async def profile_sex(callback: CallbackQuery, state: FSMContext):
 async def profile_age(message: Message, state: FSMContext):
     global new_user
     if message.text.isdigit():
-        new_user['age'] = message.text
+        new_user['age'] = int(message.text)
 
         time.sleep(1)
         await state.set_state(Form.city)
@@ -73,7 +73,7 @@ async def profile_description(message: Message, state: FSMContext):
 
     time.sleep(1)
     await state.set_state(Form.prefer)
-    await message.answer('С кем бы вы предпочли знакомиться?', reply_markup=get_sex_prefer_keyboard())
+    await message.answer('С кем бы вы предпочли знакомиться?', reply_markup=sex_prefer_keyboard)
 
 
 @router.callback_query(Form.prefer)
@@ -86,8 +86,9 @@ async def profile_sex_prefer(callback: CallbackQuery, state: FSMContext):
     else:
         new_user['prefer'] = 3
 
-    await callback.message.edit_reply_markup(reply_markup=change_sex_prefer_keyboard(new_user['prefer']))
+    await callback.message.edit_reply_markup(reply_markup=change_sex_keyboard(new_user['prefer']))
     time.sleep(1)
     await state.clear()
     add_new_user(new_user)
+    await state.set_state(Form.panel)
     await callback.message.answer('Регистрация пройдена успешно', reply_markup=user_keyboard)

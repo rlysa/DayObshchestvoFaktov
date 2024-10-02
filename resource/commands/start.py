@@ -7,6 +7,8 @@ import time
 
 from .forms import Form
 from resource.keyboards.start_keyboard import start_keyboard
+from resource.keyboards.user_keyboard import user_keyboard
+from db.db_request.return_profile import return_user
 
 router = Router()
 
@@ -29,7 +31,11 @@ async def profile_start(callback: CallbackQuery, state: FSMContext):
     time.sleep(0.5)
     await callback.message.edit_reply_markup()
     time.sleep(0.5)
-    await callback.message.answer('Заполнение анкеты')
-    time.sleep(0.5)
-    await callback.message.answer('Укажите ваше имя')
-    await state.set_state(Form.name)
+    if return_user(callback.message.chat.id):
+        await state.set_state(Form.panel)
+        await callback.message.answer('Вы уже зарегистрированы!', reply_markup=user_keyboard)
+    else:
+        await callback.message.answer('Заполнение анкеты')
+        time.sleep(0.5)
+        await callback.message.answer('Укажите ваше имя')
+        await state.set_state(Form.name)
