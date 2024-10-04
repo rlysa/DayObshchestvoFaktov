@@ -20,9 +20,15 @@ async def panel_cmds(message: Message, state: FSMContext):
     elif message.text == 'Смотреть анкеты':
         # await state.set_state(Form.look_profiles)
         await message.answer('Функция находится в стадии разработки')
+        await message.answer("Выберите команду", reply_markup=user_keyboard)
     elif message.text == 'Кому понравилась моя анкета?':
         # await state.set_state(Form.who_likes_me)
         await message.answer('Функция находится в стадии разработки')
+        await message.answer("Выберите команду", reply_markup=user_keyboard)
     elif message.text == 'Инструкция':
         # await state.set_state(Form.instruction)
         await message.answer('Функция находится в стадии разработки')
+        await message.answer("Выберите команду", reply_markup=user_keyboard)
+    else:
+        await message.answer('Некорректный запрос')
+        await message.answer("Выберите команду", reply_markup=user_keyboard)

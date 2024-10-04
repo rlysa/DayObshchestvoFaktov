@@ -7,13 +7,14 @@ from aiogram import Router
 
 from .forms import Form
 from resource.keyboards.user_keyboard import user_keyboard
-from resource.keyboards.my_profile_keyboard import edit_profile_keyboard, end_edit_keyboard
+from resource.keyboards.my_profile_keyboard import edit_profile_keyboard, end_edit_keyboard, my_profile_keyboard
 from resource.keyboards.sex_keyboard import sex_keyboard, change_sex_keyboard, sex_prefer_keyboard
 from db.db_request.edit_profile_db import edit_field
 from db.db_request.return_profile import return_profile
 
 router = Router()
 field = 0
+changes = False
 
 
 @router.message(Form.my_profile)
@@ -24,6 +25,9 @@ async def cmd_my_profile(message: Message, state: FSMContext):
     elif message.text == 'Изменить':
         await state.set_state(Form.edit_profile)
         await message.answer('Что вы хотели бы изменить?', reply_markup=edit_profile_keyboard)
+    else:
+        await message.answer('Некорректный запрос')
+        await message.answer("Выберите команду", reply_markup=my_profile_keyboard)
 
 
 @router.callback_query(Form.edit_profile)
@@ -86,10 +90,33 @@ async def cmd_edit_profile(callback: CallbackQuery, state: FSMContext):
                                       reply_markup=sex_prefer_keyboard)
 
 
+@router.message(Form.edit_profile)
+async def cmd_edit_profile(message: Message, state: FSMContext):
+    global changes
+    if message.text == 'Назад':
+        if changes:
+            await message.answer('Анкета изменена')
+            changes = False
+            profile = return_profile(message.chat.id)
+            await message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}',
+                                 reply_markup=user_keyboard)
+        await state.set_state(Form.panel)
+        await message.answer("Выберите команду", reply_markup=user_keyboard)
+    else:
+        await message.answer('Некорректный запрос')
+
+
 @router.message(Form.new_mean)
 async def cmd_new_mean(message: Message, state: FSMContext):
     global field
+    global changes
     if message.text == 'Назад':
+        if changes:
+            await message.answer('Анкета изменена')
+            changes = False
+            profile = return_profile(message.chat.id)
+            await message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}',
+                                 reply_markup=user_keyboard)
         await state.set_state(Form.panel)
         await message.answer("Выберите команду", reply_markup=user_keyboard)
     elif field == 'age':
@@ -97,11 +124,13 @@ async def cmd_new_mean(message: Message, state: FSMContext):
             await message.answer('Возраст указывается числом')
             await message.answer('Укажите возраст')
         else:
+            changes = True
             edit_field(message.chat.id, field, int(message.text))
             await state.set_state(Form.end_edit_profile)
             await message.answer('Возраст изменен')
             await message.answer('Хотите внести другие изменения в анкету?', reply_markup=end_edit_keyboard)
     else:
+        changes = True
         edit_field(message.chat.id, field, message.text)
         await state.set_state(Form.end_edit_profile)
         if field == 'name':
@@ -116,6 +145,7 @@ async def cmd_new_mean(message: Message, state: FSMContext):
 @router.callback_query(Form.new_mean_sex)
 async def cmd_new_mean_sex(callback: CallbackQuery, state: FSMContext):
     global field
+    global changes
     if callback.data == 'м':
         sex = 1
     elif callback.data == 'ж':
@@ -128,8 +158,25 @@ async def cmd_new_mean_sex(callback: CallbackQuery, state: FSMContext):
         await callback.message.answer('Пол изменен')
     else:
         await callback.message.answer('Предпочтения изменены')
+    changes = True
     await state.set_state(Form.end_edit_profile)
     await callback.message.answer('Хотите внести другие изменения в анкету?', reply_markup=end_edit_keyboard)
+
+
+@router.message(Form.new_mean_sex)
+async def cmd_new_mean_sex(message: Message, state: FSMContext):
+    global changes
+    if message.text == 'Назад':
+        if changes:
+            await message.answer('Анкета изменена')
+            profile = return_profile(message.chat.id)
+            changes = False
+            await message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}',
+                                 reply_markup=user_keyboard)
+        await state.set_state(Form.panel)
+        await message.answer("Выберите команду", reply_markup=user_keyboard)
+    else:
+        await message.answer('Некорректный запрос')
 
 
 @router.callback_query(Form.end_edit_profile)
@@ -144,6 +191,13 @@ async def end_edit_profile(callback: CallbackQuery, state: FSMContext):
             reply_markup=InlineKeyboardMarkup(inline_keyboard=[[InlineKeyboardButton(text='Нет', callback_data='Нет')]]))
         await callback.message.answer('Анкета изменена')
         profile = return_profile(callback.message.chat.id)
+        global changes
+        changes = False
         await state.set_state(Form.panel)
-        await callback.message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}',
-                                      reply_markup=user_keyboard)
+        await callback.message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}')
+        await callback.message.answer("Выберите команду", reply_markup=user_keyboard)
+
+
+@router.message(Form.end_edit_profile)
+async def end_edit_profile(message: Message, state: FSMContext):
+    await message.answer('Некорректный запрос')

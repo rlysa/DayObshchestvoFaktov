@@ -39,3 +39,8 @@ async def profile_start(callback: CallbackQuery, state: FSMContext):
         time.sleep(0.5)
         await callback.message.answer('Укажите ваше имя')
         await state.set_state(Form.name)
+
+
+@router.message(Form.start)
+async def profile_start(message: Message, state: FSMContext):
+    await message.answer('Некорректный запрос')

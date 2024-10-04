@@ -21,3 +21,5 @@ class Form(StatesGroup):
     new_mean = State()
     new_mean_sex = State()
     end_edit_profile = State()
+
+    instruction()

@@ -42,6 +42,12 @@ async def profile_sex(callback: CallbackQuery, state: FSMContext):
     await callback.message.answer('Укажите ваш возраст')
 
 
+@router.message(Form.sex)
+async def profile_start(message: Message, state: FSMContext):
+    await message.answer('Некорректный запрос')
+    await message.answer('Укажите ваш пол', reply_markup=sex_keyboard)
+
+
 @router.message(Form.age)
 async def profile_age(message: Message, state: FSMContext):
     global new_user
@@ -91,4 +97,11 @@ async def profile_sex_prefer(callback: CallbackQuery, state: FSMContext):
     await state.clear()
     add_new_user(new_user)
     await state.set_state(Form.panel)
-    await callback.message.answer('Регистрация пройдена успешно', reply_markup=user_keyboard)
+    await callback.message.answer('Регистрация пройдена успешно')
+    await callback.message.answer("Выберите команду", reply_markup=user_keyboard)
+
+
+@router.message(Form.prefer)
+async def profile_start(message: Message, state: FSMContext):
+    await message.answer('Некорректный запрос')
+    await message.answer('С кем бы вы предпочли знакомиться?', reply_markup=sex_prefer_keyboard)
