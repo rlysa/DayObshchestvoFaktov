@@ -13,7 +13,6 @@ class Form(StatesGroup):
     panel = State()
 
     my_profile = State()
-    instruction = State()
     look_profiles = State()
     who_likes_me = State()
 
@@ -22,4 +21,3 @@ class Form(StatesGroup):
     new_mean_sex = State()
     end_edit_profile = State()
 
-    instruction()

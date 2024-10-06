@@ -17,11 +17,17 @@ def return_user(user_id):
 def return_profile(user_id):
     connection = sqlite3.connect(DB_NAME)
     cursor = connection.cursor()
-    profile = cursor.execute(f'SELECT name, sex, age, city, description FROM users WHERE user_id={user_id}').fetchall()
+    profile = cursor.execute(f'SELECT name, sex, age, city, description, prefer FROM users WHERE user_id={user_id}').fetchall()
     profile = list(profile[0])
     profile[1] = 'м' if profile[1] == 1 else 'ж'
+    if profile[-1] == 1:
+        profile[-1] = 'м'
+    elif profile[-1] == 2:
+        profile[-1] = 'ж'
+    else:
+        profile[-1] = 'м/ж'
     return profile
 
 
 if __name__ == '__main__':
-    return_profile(929513123)
+    return_profile(1)

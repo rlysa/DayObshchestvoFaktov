@@ -33,7 +33,9 @@ async def profile_start(callback: CallbackQuery, state: FSMContext):
     time.sleep(0.5)
     if return_user(callback.message.chat.id):
         await state.set_state(Form.panel)
-        await callback.message.answer('Вы уже зарегистрированы!', reply_markup=user_keyboard)
+        await callback.message.answer('Вы уже зарегистрированы!')
+        time.sleep(0.5)
+        await callback.message.answer('Выберите команду', reply_markup=user_keyboard)
     else:
         await callback.message.answer('Заполнение анкеты')
         time.sleep(0.5)

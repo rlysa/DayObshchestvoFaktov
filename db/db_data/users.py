@@ -12,8 +12,7 @@ class User(SqlAlchemyBase):
     FEMALE = 2
     ANY = 3
 
-    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
-    user_id = sqlalchemy.Column(sqlalchemy.Integer, unique=True)
+    user_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, unique=True)
     status = sqlalchemy.Column(sqlalchemy.Integer, default=USER)
     name = sqlalchemy.Column(sqlalchemy.String)
     sex = sqlalchemy.Column(sqlalchemy.Integer)

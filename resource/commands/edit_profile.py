@@ -98,10 +98,10 @@ async def cmd_edit_profile(message: Message, state: FSMContext):
             await message.answer('Анкета изменена')
             changes = False
             profile = return_profile(message.chat.id)
-            await message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}',
-                                 reply_markup=user_keyboard)
+            await message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}')
+            await message.answer(f'С кем знакомиться: {profile[-1]}', reply_markup=user_keyboard)
         await state.set_state(Form.panel)
-        await message.answer("Выберите команду", reply_markup=user_keyboard)
+        await message.answer('Выберите команду', reply_markup=user_keyboard)
     else:
         await message.answer('Некорректный запрос')
 
@@ -115,8 +115,8 @@ async def cmd_new_mean(message: Message, state: FSMContext):
             await message.answer('Анкета изменена')
             changes = False
             profile = return_profile(message.chat.id)
-            await message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}',
-                                 reply_markup=user_keyboard)
+            await message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}')
+            await message.answer(f'С кем знакомиться: {profile[-1]}', reply_markup=user_keyboard)
         await state.set_state(Form.panel)
         await message.answer("Выберите команду", reply_markup=user_keyboard)
     elif field == 'age':
@@ -171,8 +171,8 @@ async def cmd_new_mean_sex(message: Message, state: FSMContext):
             await message.answer('Анкета изменена')
             profile = return_profile(message.chat.id)
             changes = False
-            await message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}',
-                                 reply_markup=user_keyboard)
+            await message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}')
+            await message.answer(f'С кем знакомиться: {profile[-1]}', reply_markup=user_keyboard)
         await state.set_state(Form.panel)
         await message.answer("Выберите команду", reply_markup=user_keyboard)
     else:
@@ -195,6 +195,7 @@ async def end_edit_profile(callback: CallbackQuery, state: FSMContext):
         changes = False
         await state.set_state(Form.panel)
         await callback.message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}')
+        await callback.message.answer(f'С кем знакомиться: {profile[-1]}')
         await callback.message.answer("Выберите команду", reply_markup=user_keyboard)
 
 
