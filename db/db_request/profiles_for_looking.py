@@ -26,7 +26,14 @@ def profiles_for_looking(user_id):
     ids = ids_for_looking(user_id)
     connection = sqlite3.connect(DB_NAME)
     cursor = connection.cursor()
-    profiles = [list(cursor.execute(f'SELECT user_id, name, sex, age, city, description FROM users WHERE user_id={user_id_i}').fetchall()[0]) for user_id_i in ids]
-    for i in profiles:
-        i[2] = 'м' if i[2] == 1 else 'ж'
+    profiles = []
+    for user_id_i in ids:
+        profile = list(cursor.execute(
+            f'SELECT user_id, name, sex, age, city, description FROM users WHERE user_id={user_id_i}').fetchall()[0])
+        profile[2] = 'м' if profile[2] == 1 else 'ж'
+        rating = list(cursor.execute(f'SELECT rating FROM likes WHERE user_id={user_id_i}').fetchall()[0])
+        profile.append(rating)
+        profiles.append(profile)
+    profiles = sorted(profiles, key=lambda x: x[-1])
+    connection.close()
     return profiles
