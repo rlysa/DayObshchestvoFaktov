@@ -25,5 +25,3 @@ end_edit_buttons = [
 ]
 
 end_edit_keyboard = InlineKeyboardMarkup(inline_keyboard=end_edit_buttons)
-
-

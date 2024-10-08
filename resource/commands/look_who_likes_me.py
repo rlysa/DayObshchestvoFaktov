@@ -12,7 +12,7 @@ router = Router()
 
 
 @router.message(Form.who_likes_me)
-async def look_profiles_like_me(message: Message, state: FSMContext):
+async def cmd_look_who_likes_me(message: Message, state: FSMContext):
     if message.text == 'Назад':
         await state.set_state(Form.panel)
         await message.answer('Выберите команду', reply_markup=user_keyboard)

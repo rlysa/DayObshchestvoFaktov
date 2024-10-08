@@ -13,7 +13,7 @@ router = Router()
 
 
 @router.message(Form.look_profiles)
-async def look_profiles(message: Message, state: FSMContext):
+async def cmd_look_profiles(message: Message, state: FSMContext):
     if message.text == 'Назад':
         await state.set_state(Form.panel)
         await message.answer('Выберите команду', reply_markup=user_keyboard)

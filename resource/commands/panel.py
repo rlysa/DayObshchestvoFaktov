@@ -15,7 +15,7 @@ router = Router()
 
 
 @router.message(Form.panel)
-async def panel_cmds(message: Message, state: FSMContext):
+async def cmds_panel(message: Message, state: FSMContext):
     if message.text == 'Моя анкета':
         profile = return_profile(message.chat.id)
         await message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}')
