@@ -11,6 +11,7 @@ class Form(StatesGroup):
     prefer = State()
 
     panel = State()
+    unavailable = State()
 
     my_profile = State()
     look_profiles = State()

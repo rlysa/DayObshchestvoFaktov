@@ -53,10 +53,13 @@ async def profile_age(message: Message, state: FSMContext):
     global new_user
     if message.text.isdigit():
         new_user['age'] = int(message.text)
-
-        time.sleep(1)
-        await state.set_state(Form.city)
-        await message.answer('Укажите ваш город')
+        if int(message.text) >= 14:
+            time.sleep(1)
+            await state.set_state(Form.city)
+            await message.answer('Укажите ваш город')
+        else:
+            await state.set_state(Form.unavailable)
+            await message.answer('Пользователям младше 14 лет бот не доступен к использованию')
     else:
         await message.answer('Возраст указывается числом')
         await message.answer('Укажите ваш возраст')
@@ -105,3 +108,8 @@ async def profile_sex_prefer(callback: CallbackQuery, state: FSMContext):
 async def profile_start(message: Message, state: FSMContext):
     await message.answer('Некорректный запрос')
     await message.answer('С кем бы вы предпочли знакомиться?', reply_markup=sex_prefer_keyboard)
+
+
+@router.message(Form.unavailable)
+async def unavailable(message: Message, state: FSMContext):
+    await message.answer('Некорректный запрос')

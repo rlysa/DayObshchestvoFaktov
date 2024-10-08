@@ -14,6 +14,7 @@ dp.include_router(profile_router)
 dp.include_router(panel_router)
 dp.include_router(my_profile_router)
 dp.include_router(look_profiles_router)
+dp.include_router(who_likes_me_router)
 
 
 def run_db():

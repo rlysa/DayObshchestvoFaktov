@@ -9,4 +9,6 @@ class Likes(SqlAlchemyBase):
     users_like = sqlalchemy.Column(sqlalchemy.String, default='')
     users_unlike = sqlalchemy.Column(sqlalchemy.String, default='')
     users_mutual = sqlalchemy.Column(sqlalchemy.String, default='')
+    sbd_likes_user = sqlalchemy.Column(sqlalchemy.String, default='')
+    sbd_unlikes_user = sqlalchemy.Column(sqlalchemy.String, default='')
     rating = sqlalchemy.Column(sqlalchemy.Float, default=0.0)

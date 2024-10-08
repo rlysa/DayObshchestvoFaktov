@@ -124,11 +124,15 @@ async def cmd_new_mean(message: Message, state: FSMContext):
             await message.answer('Возраст указывается числом')
             await message.answer('Укажите возраст')
         else:
-            changes = True
-            edit_field(message.chat.id, field, int(message.text))
-            await state.set_state(Form.end_edit_profile)
-            await message.answer('Возраст изменен')
-            await message.answer('Хотите внести другие изменения в анкету?', reply_markup=end_edit_keyboard)
+            if int(message.text) >= 14:
+                changes = True
+                edit_field(message.chat.id, field, int(message.text))
+                await state.set_state(Form.end_edit_profile)
+                await message.answer('Возраст изменен')
+                await message.answer('Хотите внести другие изменения в анкету?', reply_markup=end_edit_keyboard)
+            else:
+                await state.set_state(Form.unavailable)
+                await message.answer('Пользователям младше 14 лет бот не доступен к использованию')
     else:
         changes = True
         edit_field(message.chat.id, field, message.text)
