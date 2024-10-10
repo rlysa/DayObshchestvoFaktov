@@ -1,11 +1,11 @@
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message, CallbackQuery, ContentType
 from aiogram.fsm.context import FSMContext
 from aiogram import Router
 
 from .forms import Form
-from resource.keyboards.user_keyboard import user_keyboard
 from resource.keyboards.sex_keyboard import sex_keyboard, change_sex_keyboard, sex_prefer_keyboard
 from db.db_request.add_new_user import add_new_user
+from db.db_request.return_status import return_keyboard
 
 import time
 
@@ -83,6 +83,22 @@ async def profile_description(message: Message, state: FSMContext):
     time.sleep(1)
     await state.set_state(Form.prefer)
     await message.answer('С кем бы вы предпочли знакомиться?', reply_markup=sex_prefer_keyboard)
+    # await message.answer('Отправьте фотографию, если не хотите делиться фотографией, напишите "-"')
+
+
+# @router.message(Form.photo, content_types=ContentType.PHOTO)
+# async def profile_photo(message: Message, state: FSMContext):
+#     # photo_id = message.photo[-1].file_id
+#     # file_path = await message.document
+#
+#     #photo_data = await bot.download_file(file.file_path)
+#
+#     # Кодируем фото в Base64
+#     #photo_base64 = base64.b64encode(photo_data.getvalue()).decode('utf-8')
+#
+#     time.sleep(1)
+#     await state.set_state(Form.prefer)
+#     await message.answer('С кем бы вы предпочли знакомиться?', reply_markup=sex_prefer_keyboard)
 
 
 @router.callback_query(Form.prefer)
@@ -101,7 +117,7 @@ async def profile_sex_prefer(callback: CallbackQuery, state: FSMContext):
     add_new_user(new_user)
     await state.set_state(Form.panel)
     await callback.message.answer('Регистрация пройдена успешно')
-    await callback.message.answer("Выберите команду", reply_markup=user_keyboard)
+    await callback.message.answer("Выберите команду", reply_markup=return_keyboard(callback.message.chat.id))
 
 
 @router.message(Form.prefer)

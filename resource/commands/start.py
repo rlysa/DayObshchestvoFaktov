@@ -7,7 +7,7 @@ import time
 
 from .forms import Form
 from resource.keyboards.start_keyboard import start_keyboard
-from resource.keyboards.user_keyboard import user_keyboard
+from db.db_request.return_status import return_keyboard
 from db.db_request.return_profile import return_user
 
 router = Router()
@@ -16,12 +16,16 @@ router = Router()
 @router.message(Command('start'))
 async def cmd_start(message: Message, state: FSMContext):
     await message.answer('''ДайОбществоФактов - бот для знакомств
-    
-Как он работает?
-1. Вы заполняете анкету о себе, которую в любой момент можно изменить
-2. После заполнения анкеты вам доступна функция просмотра других анкет, которые вы мо жете оценить как "нравится" или "не нравится"
-3. Также вам доступна функция просмотра анкет людей, которым понравились вы, эти анкеты тоже можно оценить
-4. Если с понравившимся вам человеком взаимная симпатия, есть возможность перейти в личные сообщения для дальнейшего знакомства''',
+
+Длч использования функций данного бота необходимо зарегистрироваться
+
+Доступные функции:
+1. Просмотр и изменение личной анкеты
+2. Просмотр других анкет, которые можно оценить как "нравится" или "не нравится"
+3. Просмотр и оценка анкет людей, которым понравилась ваша анкета
+
+В ленте анкет первыми будут анкеты с более высоким рейтингом, на который влияет количество лайков, которое ставят вашей анкете
+Если у вас есть промокод, вы можете повысить анкету до уровня VIP, тогда ваш рейтинг будет расти с большей скоростью''',
                          reply_markup=start_keyboard)
     await state.set_state(Form.start)
 
@@ -35,7 +39,7 @@ async def profile_start(callback: CallbackQuery, state: FSMContext):
         await state.set_state(Form.panel)
         await callback.message.answer('Вы уже зарегистрированы!')
         time.sleep(0.5)
-        await callback.message.answer('Выберите команду', reply_markup=user_keyboard)
+        await callback.message.answer('Выберите команду', reply_markup=return_keyboard(callback.message.chat.id))
     else:
         await callback.message.answer('Заполнение анкеты')
         time.sleep(0.5)

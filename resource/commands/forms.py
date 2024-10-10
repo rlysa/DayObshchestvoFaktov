@@ -8,14 +8,19 @@ class Form(StatesGroup):
     age = State()
     city = State()
     description = State()
+    photo = State()
     prefer = State()
 
     panel = State()
     unavailable = State()
 
+    rating = State()
+
     my_profile = State()
     look_profiles = State()
     who_likes_me = State()
+    resume_wlm = State()
+    resume_lp = State()
 
     edit_profile = State()
     new_mean = State()

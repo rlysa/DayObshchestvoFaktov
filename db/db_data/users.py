@@ -6,7 +6,8 @@ class User(SqlAlchemyBase):
     __tablename__ = 'users'
 
     ADMIN = 1
-    USER = 2
+    VIP_USER = 2
+    USER = 3
 
     MALE = 1
     FEMALE = 2

@@ -6,3 +6,7 @@ buttons = [
 ]
 
 likes_keyboard = ReplyKeyboardMarkup(keyboard=buttons, resize_keyboard=True)
+
+resume_keyboard = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Продолжить просмотр анкет')],
+                                                [KeyboardButton(text='Назад')]],
+                                      resize_keyboard=True)
