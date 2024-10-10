@@ -33,6 +33,6 @@ def profiles_for_looking(user_id):
         rating = list(cursor.execute('SELECT rating FROM likes WHERE user_id={0}'.format(user_id_i)).fetchall()[0])
         profile.append(rating)
         profiles.append(profile)
-    profiles = sorted(profiles, key=lambda x: x[-1])
+    profiles.sort(key=lambda x: x[-1], reverse=True)
     connection.close()
     return profiles
