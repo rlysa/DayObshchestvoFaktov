@@ -10,6 +10,7 @@ from db.db_request.profiles_for_looking import profiles_for_looking
 from db.db_request.profiles_like_me import profiles_like_me
 from db.db_request.return_status import return_keyboard, return_status
 from db.db_request.return_statistics import return_statistics
+from db.db_request.return_rating import return_rating
 
 
 router = Router()
@@ -21,7 +22,8 @@ async def cmds_panel(message: Message, state: FSMContext):
         profile = return_profile(message.chat.id)
         # await message.answer_photo(photo='', caption=f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}')
         await message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}')
-        await message.answer(f'С кем знакомиться: {profile[-1]}', reply_markup=my_profile_keyboard)
+        await message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {return_rating(message.chat.id)}',
+                             reply_markup=my_profile_keyboard)
         await state.set_state(Form.my_profile)
     elif message.text == 'Смотреть анкеты':
         profiles_fl = profiles_for_looking(message.chat.id)
@@ -59,8 +61,17 @@ async def cmds_panel(message: Message, state: FSMContext):
         await message.answer(return_statistics())
         await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))
     elif message.text == 'Рейтинг' and return_status(message.chat.id) == 1:
-        await message.answer('Можно повлиять на рейтинг')
+        await message.answer('Можно посмотреть рейтинг')
         await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))
+    elif message.text == promocode():
+        await message.answer('Поздравляем! Вы получили доступ к VIP-аккаунту')
+
     else:
         await message.answer('Некорректный запрос')
         await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))
+
+
+def promocode():
+    with open('../../configuration.txt') as file:
+        promo = file.readline().strip()
+    return promo
