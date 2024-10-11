@@ -66,6 +66,9 @@ async def cmds_panel(message: Message, state: FSMContext):
         await message.answer('Поздравляем! Вы получили доступ к VIP-аккаунту')
         change_status(message.chat.id)
         await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))
+    elif message.text == 'Рейтинг' and return_status(message.chat.id) == 2:
+        await message.answer('Некорректный запрос')
+        await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))
     else:
         await message.answer('Некорректный запрос')
         await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))

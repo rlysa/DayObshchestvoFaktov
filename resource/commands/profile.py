@@ -23,12 +23,16 @@ new_user = dict({'user_id': '',
 @router.message(Form.name)
 async def profile_name(message: Message, state: FSMContext):
     global new_user
-    new_user['user_id'] = message.chat.id
-    new_user['name'] = message.text
+    if len(message.text) > 30:
+        await message.answer('Вы не можете ввести имя длиной более 30 символов')
+        await message.answer('Укажите ваше имя')
+    else:
+        new_user['user_id'] = message.chat.id
+        new_user['name'] = message.text
 
-    time.sleep(1)
-    await state.set_state(Form.sex)
-    await message.answer('Укажите ваш пол', reply_markup=sex_keyboard)
+        time.sleep(1)
+        await state.set_state(Form.sex)
+        await message.answer('Укажите ваш пол', reply_markup=sex_keyboard)
 
 
 @router.callback_query(Form.sex)
@@ -67,23 +71,31 @@ async def profile_age(message: Message, state: FSMContext):
 
 @router.message(Form.city)
 async def profile_city(message: Message, state: FSMContext):
-    global new_user
-    new_user['city'] = message.text
+    if len(message.text) > 30:
+        await message.answer('Вы не можете ввести название города длиной более 30 символов')
+        await message.answer('Укажите ваше город')
+    else:
+        global new_user
+        new_user['city'] = message.text
 
-    time.sleep(1)
-    await state.set_state(Form.description)
-    await message.answer('Напишите что-то о себе')
+        time.sleep(1)
+        await state.set_state(Form.description)
+        await message.answer('Напишите что-то о себе')
 
 
 @router.message(Form.description)
 async def profile_description(message: Message, state: FSMContext):
-    global new_user
-    new_user['description'] = message.text
+    if len(message.text) > 200:
+        await message.answer('Вы не можете ввести описание длиной более 200 символов')
+        await message.answer('Укажите ваше имя')
+    else:
+        global new_user
+        new_user['description'] = message.text
 
-    time.sleep(1)
-    await state.set_state(Form.prefer)
-    await message.answer('С кем бы вы предпочли знакомиться?', reply_markup=sex_prefer_keyboard)
-    # await message.answer('Отправьте фотографию, если не хотите делиться фотографией, напишите "-"')
+        time.sleep(1)
+        await state.set_state(Form.prefer)
+        await message.answer('С кем бы вы предпочли знакомиться?', reply_markup=sex_prefer_keyboard)
+        # await message.answer('Отправьте фотографию, если не хотите делиться фотографией, напишите "-"')
 
 
 # @router.message(Form.photo, content_types=ContentType.PHOTO)

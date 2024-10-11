@@ -6,12 +6,12 @@ from aiogram.types import InlineKeyboardMarkup, ReplyKeyboardMarkup, InlineKeybo
 from aiogram import Router
 
 from .forms import Form
-from db.db_request.return_status import return_keyboard
 from resource.keyboards.my_profile_keyboard import edit_profile_keyboard, end_edit_keyboard, my_profile_keyboard
 from resource.keyboards.sex_keyboard import sex_keyboard, change_sex_keyboard, sex_prefer_keyboard
 from db.db_request.edit_profile_db import edit_field
 from db.db_request.return_profile import return_profile
 from db.db_request.return_rating import return_rating
+from db.db_request.return_status import return_keyboard, return_status
 
 router = Router()
 field = 0
@@ -137,16 +137,45 @@ async def cmd_new_mean(message: Message, state: FSMContext):
                 await state.set_state(Form.unavailable)
                 await message.answer('Пользователям младше 14 лет бот не доступен к использованию')
     else:
-        changes = True
-        edit_field(message.chat.id, field, message.text)
-        await state.set_state(Form.end_edit_profile)
         if field == 'name':
-            await message.answer('Имя изменено')
+            if len(message.text) > 30 and return_status(message.chat.id) != 2:
+                await message.answer('Вы не можете ввести имя длиной более 30 символов')
+                await message.answer('Измените имя')
+            elif len(message.text) > 100 and return_status(message.chat.id) == 2:
+                await message.answer('Вы не можете ввести имя длиной более 100 символов')
+                await message.answer('Измените имя')
+            else:
+                await message.answer('Имя изменено')
+                await message.answer('Хотите внести другие изменения в анкету?', reply_markup=end_edit_keyboard)
+                changes = True
+                edit_field(message.chat.id, field, message.text)
+                await state.set_state(Form.end_edit_profile)
         elif field == 'city':
-            await message.answer('Город изменен')
+            if len(message.text) > 30 and return_status(message.chat.id) != 2:
+                await message.answer('Вы не можете ввести название города длиной более 30 символов')
+                await message.answer('Измените город')
+            elif len(message.text) > 100 and return_status(message.chat.id) == 2:
+                await message.answer('Вы не можете ввести название города длиной более 100 символов')
+                await message.answer('Измените город')
+            else:
+                await message.answer('Город изменен')
+                await message.answer('Хотите внести другие изменения в анкету?', reply_markup=end_edit_keyboard)
+                changes = True
+                edit_field(message.chat.id, field, message.text)
+                await state.set_state(Form.end_edit_profile)
         elif field == 'description':
-            await message.answer('Описание изменено')
-        await message.answer('Хотите внести другие изменения в анкету?', reply_markup=end_edit_keyboard)
+            if len(message.text) > 200 and return_status(message.chat.id) != 2:
+                await message.answer('Вы не можете ввести описание длиной более 200 символов')
+                await message.answer('Измените описание')
+            elif len(message.text) > 1200 and return_status(message.chat.id) == 2:
+                await message.answer('Вы не можете ввести описание длиной более 1200 символов')
+                await message.answer('Измените описание')
+            else:
+                await message.answer('Описание изменено')
+                await message.answer('Хотите внести другие изменения в анкету?', reply_markup=end_edit_keyboard)
+                changes = True
+                edit_field(message.chat.id, field, message.text)
+                await state.set_state(Form.end_edit_profile)
 
 
 @router.callback_query(Form.new_mean_sex)
