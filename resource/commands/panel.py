@@ -75,6 +75,6 @@ async def cmds_panel(message: Message, state: FSMContext):
 
 
 def promocode():
-    with open('../../configuration.txt') as file:
+    with open('configuration.txt') as file:
         promo = file.readline().strip()
     return promo
