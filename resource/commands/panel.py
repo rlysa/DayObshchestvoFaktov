@@ -8,10 +8,9 @@ from resource.keyboards.likes_keyboard import likes_keyboard
 from db.db_request.return_profile import return_profile
 from db.db_request.profiles_for_looking import profiles_for_looking
 from db.db_request.profiles_like_me import profiles_like_me
-from db.db_request.return_status import return_keyboard, return_status
+from db.db_request.return_status import return_keyboard, return_status, change_status
 from db.db_request.return_statistics import return_statistics
 from db.db_request.return_rating import return_rating
-
 
 router = Router()
 
@@ -65,7 +64,8 @@ async def cmds_panel(message: Message, state: FSMContext):
         await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))
     elif message.text == promocode():
         await message.answer('Поздравляем! Вы получили доступ к VIP-аккаунту')
-
+        change_status(message.chat.id)
+        await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))
     else:
         await message.answer('Некорректный запрос')
         await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))
