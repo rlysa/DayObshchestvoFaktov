@@ -19,7 +19,7 @@ def promocode():
 @router.message(Form.vip)
 async def vip_user(message: Message, state: FSMContext):
     if message.text == promocode():
-        await message.answer('Поздравляем! Вы получили доступ к VIP-аккаунту')
+        await message.answer('Поздравляем! Вы получили доступ к VIP-аккаунту 100ViPaCcOuNt000')
         change_status(message.chat.id)
         profile = return_profile(message.chat.id)
         check_keywords(message.chat.id, f'{profile[0]} {profile[3]} {profile[4]}')

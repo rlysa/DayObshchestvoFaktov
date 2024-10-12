@@ -72,7 +72,7 @@ async def cmds_panel(message: Message, state: FSMContext):
         await message.answer(rating, reply_markup=admin_rating_keyboard)
     elif message.text == 'VIP':
         if return_rating(message.chat.id) > 100000 and return_status(message.chat.id) == 3:
-            await message.answer('Поздравляем! Вы получили доступ к VIP-аккаунту')
+            await message.answer('Поздравляем! Вы получили доступ к VIP-аккаунту 100ViPaCcOuNt000')
             change_status(message.chat.id)
             profile = return_profile(message.chat.id)
             check_keywords(message.chat.id, f'{profile[0]} {profile[3]} {profile[4]}')
@@ -82,6 +82,9 @@ async def cmds_panel(message: Message, state: FSMContext):
             await message.answer('Введите промокод или достигнете рейтинга больше 100000',
                                  reply_markup=ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Назад')]],
                                                                   resize_keyboard=True))
+        elif return_status(message.chat.id) == 1:
+            await message.answer('Вы не можете перейти на роль ниже')
+            await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))
         else:
             await message.answer('У вас уже есть VIP-аккаунт')
             await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))

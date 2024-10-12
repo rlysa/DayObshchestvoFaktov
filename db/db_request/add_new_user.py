@@ -6,10 +6,6 @@ from db.db_data.__all_models import *
 
 
 def add_new_user(new_user):
-    connection = sqlite3.connect(DB_NAME)
-    cursor = connection.cursor()
-    users_id = cursor.execute(f'''SELECT user_id FROM users''').fetchall()
-    connection.close()
     db_session.global_init(DB_NAME)
     session = db_session.create_session()
     nu = User(

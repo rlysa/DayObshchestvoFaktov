@@ -6,6 +6,7 @@ from db.db_data.db_session import global_init
 from resource.commands.__routers import *
 from db.db_request.add_new_user import add_new_user
 from db.db_request.delete import delete
+from db.db_request.add_keywords import add_keywords
 
 
 bot = Bot(token=TOKEN)
@@ -31,8 +32,9 @@ def run_db():
                        'sex': 1,
                        'age': 18,
                        'city': 'Москва',
-                       'description': 'промокод',
+                       'description': 'LyhsxsUzxpg',
                        'prefer': 3}))
+    add_keywords()
 
 
 async def main() -> None:

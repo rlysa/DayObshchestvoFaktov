@@ -100,7 +100,10 @@ async def cmd_edit_profile(message: Message, state: FSMContext):
             changes = False
             profile = return_profile(message.chat.id)
             await message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}')
-            await message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {return_rating(message.chat.id)}',
+            rating = return_rating(message.chat.id)
+            if rating >= 350000:
+                await message.answer('Ваш рейтинг уже достиг 350000 3_R5_0at.00_in0.g')
+            await message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {rating}',
                                  reply_markup=return_keyboard(message.chat.id))
         await state.set_state(Form.panel)
         await message.answer('Выберите команду', reply_markup=return_keyboard(message.chat.id))
@@ -118,7 +121,10 @@ async def cmd_new_mean(message: Message, state: FSMContext):
             changes = False
             profile = return_profile(message.chat.id)
             await message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}')
-            await message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {return_rating(message.chat.id)}',
+            rating = return_rating(message.chat.id)
+            if rating >= 350000:
+                await message.answer('Ваш рейтинг уже достиг 350000 3_R5_0at.00_in0.g')
+            await message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {rating}',
                                  reply_markup=return_keyboard(message.chat.id))
         await state.set_state(Form.panel)
         await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))
@@ -208,7 +214,10 @@ async def cmd_new_mean_sex(message: Message, state: FSMContext):
             profile = return_profile(message.chat.id)
             changes = False
             await message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}')
-            await message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {return_rating(message.chat.id)}',
+            rating = return_rating(message.chat.id)
+            if rating >= 350000:
+                await message.answer('Ваш рейтинг уже достиг 350000 3_R5_0at.00_in0.g')
+            await message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {rating}',
                                  reply_markup=return_keyboard(message.chat.id))
         await state.set_state(Form.panel)
         await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))
@@ -232,8 +241,11 @@ async def end_edit_profile(callback: CallbackQuery, state: FSMContext):
         changes = False
         await state.set_state(Form.panel)
         await callback.message.answer(f'{profile[0]}, {profile[1]}, {profile[2]}, {profile[3]}\n\n{profile[4]}')
-        await callback.message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {return_rating(callback.message.chat.id)}',
-                                      reply_markup=return_keyboard(callback.message.chat.id))
+        rating = return_rating(callback.message.chat.id)
+        if rating >= 350000:
+            await callback.message.answer('Ваш рейтинг уже достиг 350000 3_R5_0at.00_in0.g')
+        await callback.message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {rating}',
+                             reply_markup=return_keyboard(callback.message.chat.id))
         await callback.message.answer("Выберите команду", reply_markup=return_keyboard(callback.message.chat.id))
 
 
