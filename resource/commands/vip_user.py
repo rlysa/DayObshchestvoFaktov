@@ -6,19 +6,14 @@ from .forms import Form
 from db.db_request.return_status import change_status, return_keyboard
 from db.db_request.check_keywords import check_keywords
 from db.db_request.return_profile import return_profile
+from config import PROMOCODE
 
 router = Router()
 
 
-def promocode():
-    with open('configuration.txt') as file:
-        promo = file.readline().strip()
-    return promo
-
-
 @router.message(Form.vip)
 async def vip_user(message: Message, state: FSMContext):
-    if message.text == promocode():
+    if message.text == PROMOCODE:
         await message.answer('Поздравляем! Вы получили доступ к VIP-аккаунту 100ViPaCcOuNt000')
         change_status(message.chat.id)
         profile = return_profile(message.chat.id)

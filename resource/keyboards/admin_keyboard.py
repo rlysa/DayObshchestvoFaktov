@@ -5,7 +5,7 @@ buttons = [
     [KeyboardButton(text='Смотреть анкеты')],
     [KeyboardButton(text='Кому понравилась моя анкета?')],
     [KeyboardButton(text='Инструкция')],
-    [KeyboardButton(text='Статистика'), KeyboardButton(text='Рейтинг пользователей')]
+    [KeyboardButton(text='Статистика'), KeyboardButton(text='Пользователи')]
 ]
 
 admin_keyboard = ReplyKeyboardMarkup(keyboard=buttons,
@@ -14,7 +14,7 @@ admin_keyboard = ReplyKeyboardMarkup(keyboard=buttons,
 
 buttons_rating = [
     [KeyboardButton(text='Назад')],
-    [KeyboardButton(text='Изменить рейтинг пользователя')],
+    [KeyboardButton(text='Удалить пользователя')],
 ]
 
 admin_rating_keyboard = ReplyKeyboardMarkup(keyboard=buttons_rating,

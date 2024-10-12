@@ -34,6 +34,14 @@ def run_db():
                        'city': 'Москва',
                        'description': 'LyhsxsUzxpg',
                        'prefer': 3}))
+    add_new_user(dict({'user_id': 200000000,
+                       'status': 3,
+                       'name': 'Цезарь',
+                       'sex': 1,
+                       'age': 20,
+                       'city': 'Москва',
+                       'description': 'Интересуюсь различными алгоритмами шифрования',
+                       'prefer': 3}))
     add_keywords()
 
 

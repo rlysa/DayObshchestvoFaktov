@@ -12,6 +12,7 @@ from db.db_request.edit_profile_db import edit_field
 from db.db_request.return_profile import return_profile
 from db.db_request.return_rating import return_rating
 from db.db_request.return_status import return_keyboard, return_status
+from db.db_request.full_rating import delete_users
 
 router = Router()
 field = 0
@@ -103,7 +104,10 @@ async def cmd_edit_profile(message: Message, state: FSMContext):
             rating = return_rating(message.chat.id)
             if rating >= 350000:
                 await message.answer('Ваш рейтинг уже достиг 350000 3_R5_0at.00_in0.g')
-            await message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {rating}',
+                await message.answer('Afrn\nВаш аккаунт будет удален')
+                delete_users(message.chat.id)
+            else:
+                await message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {rating}',
                                  reply_markup=return_keyboard(message.chat.id))
         await state.set_state(Form.panel)
         await message.answer('Выберите команду', reply_markup=return_keyboard(message.chat.id))
@@ -124,7 +128,10 @@ async def cmd_new_mean(message: Message, state: FSMContext):
             rating = return_rating(message.chat.id)
             if rating >= 350000:
                 await message.answer('Ваш рейтинг уже достиг 350000 3_R5_0at.00_in0.g')
-            await message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {rating}',
+                await message.answer('Afrn\nВаш аккаунт будет удален')
+                delete_users(message.chat.id)
+            else:
+                await message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {rating}',
                                  reply_markup=return_keyboard(message.chat.id))
         await state.set_state(Form.panel)
         await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))
@@ -217,7 +224,10 @@ async def cmd_new_mean_sex(message: Message, state: FSMContext):
             rating = return_rating(message.chat.id)
             if rating >= 350000:
                 await message.answer('Ваш рейтинг уже достиг 350000 3_R5_0at.00_in0.g')
-            await message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {rating}',
+                await message.answer('Afrn\nВаш аккаунт будет удален')
+                delete_users(message.chat.id)
+            else:
+                await message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {rating}',
                                  reply_markup=return_keyboard(message.chat.id))
         await state.set_state(Form.panel)
         await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))
@@ -244,9 +254,12 @@ async def end_edit_profile(callback: CallbackQuery, state: FSMContext):
         rating = return_rating(callback.message.chat.id)
         if rating >= 350000:
             await callback.message.answer('Ваш рейтинг уже достиг 350000 3_R5_0at.00_in0.g')
-        await callback.message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {rating}',
+            await callback.message.answer('Afrn\nВаш аккаунт будет удален')
+            delete_users(callback.message.chat.id)
+        else:
+            await callback.message.answer(f'Дополнительная информация:\n\nС кем знакомиться: {profile[-1]}\nРейтинг = {rating}',
                              reply_markup=return_keyboard(callback.message.chat.id))
-        await callback.message.answer("Выберите команду", reply_markup=return_keyboard(callback.message.chat.id))
+            await callback.message.answer("Выберите команду", reply_markup=return_keyboard(callback.message.chat.id))
 
 
 @router.message(Form.end_edit_profile)

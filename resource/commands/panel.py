@@ -63,7 +63,7 @@ async def cmds_panel(message: Message, state: FSMContext):
     elif message.text == 'Статистика' and return_status(message.chat.id) == 1:
         await message.answer(return_statistics())
         await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))
-    elif message.text == 'Рейтинг пользователей' and return_status(message.chat.id) == 1:
+    elif message.text == 'Пользователи' and return_status(message.chat.id) == 1:
         rating = ''
         fr = full_rating()
         for i in range(len(fr)):

@@ -12,10 +12,10 @@ def full_rating():
     return rating
 
 
-def change_users_rating(user_id):
+def delete_users(user_id):
     connection = sqlite3.connect(DB_NAME)
     cursor = connection.cursor()
-    change_status = cursor.execute('UPDATE users SET status=3 WHERE user_id={0}'.format(user_id))
-    change_rating = cursor.execute('UPDATE likes SET rating=0 WHERE user_id={0}'.format(user_id))
+    change_status = cursor.execute('DELETE FROM users WHERE user_id={0}'.format(user_id))
+    change_rating = cursor.execute('DELETE FROM likes WHERE user_id={0}'.format(user_id))
     connection.commit()
     connection.close()

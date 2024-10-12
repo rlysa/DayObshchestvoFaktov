@@ -15,7 +15,7 @@ class Form(StatesGroup):
     unavailable = State()
 
     rating = State()
-    change_rating = State()
+    delete_user = State()
 
     my_profile = State()
     look_profiles = State()
