@@ -14,6 +14,7 @@ from db.db_request.return_statistics import return_statistics
 from db.db_request.return_rating import return_rating
 from db.db_request.full_rating import full_rating
 from resource.keyboards.admin_keyboard import admin_rating_keyboard
+from db.db_request.check_keywords import check_keywords
 
 router = Router()
 
@@ -70,13 +71,15 @@ async def cmds_panel(message: Message, state: FSMContext):
         await state.set_state(Form.rating)
         await message.answer(rating, reply_markup=admin_rating_keyboard)
     elif message.text == 'VIP':
-        if return_rating(message.chat.id) > 10000:
+        if return_rating(message.chat.id) > 100000 and return_status(message.chat.id) == 3:
             await message.answer('Поздравляем! Вы получили доступ к VIP-аккаунту')
             change_status(message.chat.id)
+            profile = return_profile(message.chat.id)
+            check_keywords(message.chat.id, f'{profile[0]} {profile[3]} {profile[4]}')
             await message.answer("Выберите команду", reply_markup=return_keyboard(message.chat.id))
-        if return_status(message.chat.id) != 2:
+        elif return_status(message.chat.id) == 3:
             await state.set_state(Form.vip)
-            await message.answer('Введите промокод или достигнете рейтинга больше 10000',
+            await message.answer('Введите промокод или достигнете рейтинга больше 100000',
                                  reply_markup=ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Назад')]],
                                                                   resize_keyboard=True))
         else:

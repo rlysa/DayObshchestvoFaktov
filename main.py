@@ -4,6 +4,7 @@ from aiogram import Bot, Dispatcher
 from config import TOKEN, DB_NAME
 from db.db_data.db_session import global_init
 from resource.commands.__routers import *
+from db.db_request.add_new_user import add_new_user
 
 
 bot = Bot(token=TOKEN)
@@ -22,6 +23,13 @@ dp.include_router(vip_router)
 
 def run_db():
     global_init(DB_NAME)
+    add_new_user(dict({'user_id': 100000000,
+                       'name': 'Миша',
+                       'sex': 1,
+                       'age': 18,
+                       'city': 'Москва',
+                       'description': 'промокод',
+                       'prefer': 3}))
 
 
 async def main() -> None:
@@ -31,3 +39,4 @@ async def main() -> None:
 if __name__ == '__main__':
     run_db()
     asyncio.run(main())
+
