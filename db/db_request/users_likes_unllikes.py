@@ -26,7 +26,7 @@ def users_likes_unlikes(user_id, user_id_liked, like):
         if return_status(user_id_liked) != 2:
             rating += 1
         else:
-            rating *= 1.5
+            rating += 1000
         users_rating = cursor.execute('UPDATE likes SET rating="{0}" WHERE user_id="{1}"'.format(rating, user_id_liked))
     else:
         unlikes_user_up = cursor.execute('UPDATE likes SET sbd_unlikes_user="{0}" WHERE user_id="{1}"'.format(unlikes_user + str(user_id) + " ", user_id_liked))

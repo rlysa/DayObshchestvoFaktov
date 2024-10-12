@@ -1,9 +1,9 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 buttons = [
-    [KeyboardButton(text='Моя анкета')],
     [KeyboardButton(text='Смотреть анкеты')],
     [KeyboardButton(text='Кому понравилась моя анкета?')],
+    [KeyboardButton(text='Моя анкета'), KeyboardButton(text='VIP')],
     [KeyboardButton(text='Инструкция')]
 ]
 

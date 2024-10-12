@@ -15,6 +15,7 @@ class Form(StatesGroup):
     unavailable = State()
 
     rating = State()
+    change_rating = State()
 
     my_profile = State()
     look_profiles = State()
@@ -22,8 +23,10 @@ class Form(StatesGroup):
     resume_wlm = State()
     resume_lp = State()
 
+    vip = State()
+    keywords = State()
+
     edit_profile = State()
     new_mean = State()
     new_mean_sex = State()
     end_edit_profile = State()
-
