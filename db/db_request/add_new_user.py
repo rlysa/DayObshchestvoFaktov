@@ -14,6 +14,7 @@ def add_new_user(new_user):
     session = db_session.create_session()
     nu = User(
         user_id=new_user['user_id'],
+        status=new_user['status'],
         name=new_user['name'],
         sex=new_user['sex'],
         age=new_user['age'],

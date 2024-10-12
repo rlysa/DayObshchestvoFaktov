@@ -6,12 +6,14 @@ from .forms import Form
 from resource.keyboards.sex_keyboard import sex_keyboard, change_sex_keyboard, sex_prefer_keyboard
 from db.db_request.add_new_user import add_new_user
 from db.db_request.return_status import return_keyboard
+from config import ADMIN_PASSWORD
 
 import time
 
 router = Router()
 
 new_user = dict({'user_id': '',
+                 'status': '3',
                  'name': '',
                  'sex': 0,
                  'age': 0,
@@ -27,12 +29,16 @@ async def profile_name(message: Message, state: FSMContext):
         await message.answer('Вы не можете ввести имя длиной более 30 символов')
         await message.answer('Укажите ваше имя')
     else:
-        new_user['user_id'] = message.chat.id
-        new_user['name'] = message.text
+        if message.text == ADMIN_PASSWORD:
+            new_user['status'] = 1
+            await message.answer('Укажите ваше имя')
+        else:
+            new_user['user_id'] = message.chat.id
+            new_user['name'] = message.text
 
-        time.sleep(1)
-        await state.set_state(Form.sex)
-        await message.answer('Укажите ваш пол', reply_markup=sex_keyboard)
+            time.sleep(1)
+            await state.set_state(Form.sex)
+            await message.answer('Укажите ваш пол', reply_markup=sex_keyboard)
 
 
 @router.callback_query(Form.sex)

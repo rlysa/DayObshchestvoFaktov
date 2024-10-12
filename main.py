@@ -5,6 +5,7 @@ from config import TOKEN, DB_NAME
 from db.db_data.db_session import global_init
 from resource.commands.__routers import *
 from db.db_request.add_new_user import add_new_user
+from db.db_request.delete import delete
 
 
 bot = Bot(token=TOKEN)
@@ -23,7 +24,9 @@ dp.include_router(vip_router)
 
 def run_db():
     global_init(DB_NAME)
+    delete()
     add_new_user(dict({'user_id': 100000000,
+                       'status': 3,
                        'name': 'Миша',
                        'sex': 1,
                        'age': 18,
