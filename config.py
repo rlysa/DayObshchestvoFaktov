@@ -6,6 +6,6 @@ TOKEN = 'TOKEN'
 BASE_DIR = Path(__file__).resolve().parent
 DB_NAME = os.path.join(BASE_DIR, 'db\db', 'dayOF.sqlite')
 
-ADMIN_PASSWORD = 'ADMINPASSWORD'
+ADMIN_PASSWORD = 'ObFaktov'
 
-PROMOCODE = 'PROMOCODE'
+PROMOCODE = '3tahq#9G'
